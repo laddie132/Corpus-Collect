@@ -1,0 +1,220 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>对话语料收集 - 帮助文档</title>
+    <!--<link rel="alternate" type="application/rss+xml" title="egrappler.com" href="feed/index.html">-->
+    <link href="http://fonts.googleapis.com/css?family=Raleway:700,300" rel="stylesheet"
+          type="text/css">
+    <link rel="stylesheet" href="/static/css/doc_style.css">
+    <link rel="stylesheet" href="/static/css/prettify.css">
+
+</head>
+<body>
+<nav>
+    <div class="container">
+        <h1>DOC</h1>
+        <div id="menu">
+            <ul class="toplinks">
+                <li><a href="/">返回主页面</a></li>
+            </ul>
+        </div>
+        <a id="menu-toggle" href="#" class=" ">&#9776;</a></div>
+</nav>
+<header>
+    <div class="container">
+        <h2 class="docs-header">对话语料收集 - 帮助文档</h2>
+    </div>
+</header>
+<section>
+    <div class="container">
+        <ul class="docs-nav" id="menu-left">
+            <li onclick="document.getElementById('introduction').scrollIntoView()"><a>介绍</a></li>
+            <li onclick="document.getElementById('help').scrollIntoView()"><a>操作说明</a></li>
+            <li onclick="document.getElementById('demand').scrollIntoView()"><a>使用要求</a></li>
+            <li onclick="document.getElementById('examples').scrollIntoView()"><a>对话示例</a></li>
+            <li onclick="document.getElementById('contact').scrollIntoView()"><a>联系我们</a></li>
+        </ul>
+        <div class="docs-content">
+            <h3 id="introduction">介绍</h3>
+
+            <p> 本工具用于对话语料的收集，A和B两个志愿者分别扮演"提问者"和"回答者"两个角色，由系统随机选取一个Document，分发给A和B，
+                双方基于该Document展开一段对话过程，系统将会记录完整的对话过程。该工具旨在帮助构建基于Document的任务驱动对话系统。</p>
+
+            <hr>
+            <h3 id="help">操作说明</h3>
+
+            <ol>
+                <li>输入自己的学号，与服务器建立连接，成功后，服务器会发送当前已连接的前十位空闲用户学号
+                    （如果列表为空，请等待下一个人主动连接） <br>
+                    <img src="/static/imgs/1.png"/>
+                </li>
+
+                <li>输入对方学号进行连接, 对方必须已经和服务器连接成功, 且没有和其他人连接,
+                    只需要一个人发起连接即可, 另一个人会自动接受连接。<br>
+                    <img src="/static/imgs/2.png"/>
+                    <img src="/static/imgs/3.png"/>
+                </li>
+                <li>连接成功后，网页左侧会显示双方共同的Document，除此之外，A和B应当扮演不同的角色，
+                    <b>先发出问题的一方即为提问方</b>，在该次对话中双方将一直保持该角色设定，根据对应角色以及左侧的Document展开一段对话。
+                    下面是不同角色可以使用的对话策略：
+                    <ol class="alpha">
+                        <li>提问者：
+                            <ol class="roman">
+                                <li>问候语</li>
+                                <li>提问：向回答者提出一个新的问题</li>
+                                <li>
+                                    确认：
+                                    <ul>
+                                        <li>补充：对上一个问题进行补充</li>
+                                        <li>修改：对上一个问题进行修改</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </li>
+                        <li>回答者：
+                            <ol class="roman">
+                                <li>问候语</li>
+                                <li>应答：回答一个给定问题（包括无答案）</li>
+                                <li>
+                                    追问：
+                                    <ul>
+                                        <li>补充：基于给定问题，确认是否需要补充该问题</li>
+                                        <li>修改：基于给定问题，确认是否需要修改该问题</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </li>
+                    </ol>
+                </li>
+                <li>出现任何错误，或者Document无法展开对话，可以刷新页面重新开始</li>
+            </ol>
+
+            <hr>
+            <h3 id="demand">使用要求</h3>
+            <ul>
+                <li>双方对话过程应当<b>严格限制于该Document范围内，任何需要外部知识（包括常识）的问答不被允许</b></li>
+                <li>每次对话中，单个发送内容应当不超过2个完整句</li>
+                <li>每次对话中，提问者应当至少提出2个新问题（较长的文档可提出3个以上新问题）</li>
+                <li>
+                    提问者和回答者的问答应当符合上述各自角色的对话策略，此外：
+                    <ul>
+                        <li>提问者提出的新问题应当为以下两种：<b>可追问的</b>，或者完全不可回答的</li>
+                        <li>回答者针对新问题<b>必须进行追问</b>，或者回答无答案；针对追问过的问题，可直接给出答案</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <hr>
+            <h3 id="examples">对话示例</h3>
+            根据提问者的不同提问类型，以下展示几种正确样例和错误样例：
+
+            <ol>
+                <li style="margin-bottom: 20px">正确示例-属性查询<br>
+                    <table class="gridtable">
+                        <tbody>
+                        <tr>
+                            <td>A为提问者，B为回答者；<span class="red_bold">B补充询问苹果的种类</span></td>
+                        </tr>
+                        <tr>
+                            <td>Small to medium in size, gala apples, like all apples, are low in calories and rich in
+                                dietary fiber and vitamin C. An average medium-sized gala apple weighs 140 grams and
+                                contains 80 calories. It also has 22 grams of carbohydrates with 5 grams of fiber and 17
+                                grams of sugar.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                A(提问): How many calories in average apple? <br>
+                                <b>B(补充): Do you means gala apple?</b> <br>
+                                A(补充): Yes. <br>
+                                B(回答): There are 80 calories in an average gala apple. <br>
+                                A(提问-指代): Well, how many sugar in it? <br>
+                                B(回答-无答案): Sorry, that's beyond my ability. <br>
+                                A(提问-指代): What about the average weights? <br>
+                                B(回答): About 140 grams. <br>
+                                A(问候): Thank you! <br>
+                                B(问候): You are welcome.
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </li>
+                <li style="margin-bottom: 20px">正确示例-地址查询<br>
+                    <table class="gridtable">
+                        <tbody>
+                        <tr>
+                            <td>A为提问者，B为回答者；<span class="red_bold">B补充询问起始地址</span></td>
+                        </tr>
+                        <tr>
+                            <td>Practical Info. Melbourne's Royal Botanic Gardens are on the southern bank of the Yarra
+                                River, edging the upmarket suburb of South Yarra. They're a pleasant 15-minute walk from
+                                the city center \u2013 just cross the river to St Kilda Road then follow your nose into
+                                the trees.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                A(提问): Where is Australian Royal Botanic Gardens? <br>
+                                B(修改): Do you want to ask Melbourne's Royal Botanic Gardens? <br>
+                                A(修改): Yes. <br>
+                                B(回答): It's on the southern bank of the Yarra River, edging the upmarket suburb of South
+                                Yarra. <br>
+                                A(提问): Well, How to get the Melbourne's Royal Botanic Gardens? <br>
+                                <b>B(补充): Where is the starting address?</b> <br>
+                                A(补充): The St Kilda Road. <br>
+                                B(回答): Please follow your nose into the trees. <br>
+                                A(问候): Thank you! <br>
+                                B(问候): You are welcome.
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </li>
+
+                <li><b>错误示例</b><br>
+                    <table class="gridtable">
+                        <tbody>
+                        <tr>
+                            <td><span class="red_bold">无补充问答</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                A: When was John Paul Joseph Cadayona born? <br>
+                                B: John Paul Joseph Cadayona was born on March 3, 1989. <br>
+                                A: What is his screen name? <br>
+                                B: His screen name is Sef. <br>
+                                A: thank you my friend. <br>
+                                B: You are welcome.
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </li>
+            </ol>
+
+            <hr>
+            <h3 id="contact">联系我们</h3>
+            <p> 本项目由北京邮电大学智能科学与技术实验室维护，使用中有任何问题欢迎发邮件至<code>liuhan132@foxmail.com</code></p>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <p> &copy; 2018 BUPT | Center of Intelligence Science and Technology </p>
+    </div>
+</footer>
+<script src="/static/js/jquery.min.js"></script>
+
+<script type="text/javascript" src="/static/prettify/prettify.js"></script>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css&skin=sunburst"></script>
+<script src="/static/js/layout.js"></script>
+<script src="/static/js/jquery.localscroll-1.2.7.js" type="text/javascript"></script>
+<script src="/static/js/jquery.scrollTo-1.4.3.1.js" type="text/javascript"></script>
+</body>
+</html>

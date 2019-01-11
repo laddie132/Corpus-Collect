@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>对话语料收集</title>
+
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/chat.css">
+
+    <!--[if lt IE 9]>
+    <script src="/static/js/html5shiv.min.js"></script>
+    <script src="/static/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+<div class="slot_window">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>背景文档</th>
+        </tr>
+        </thead>
+        <tbody class="slot_content">
+        <tr>
+            <td id="example_document"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>输入要求（<a href="docs.html" target="view_window">帮助文档</a>）</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                <ul>
+                    <li>问答不允许涉及外部知识，如常识等</li>
+                    <li>每次输入不超过2个完整句</li>
+                    <li>提问者至少提出2个新问题</li>
+                    <li>双方必须进行有<span class="red_bold">追问</span>的对话</li>
+                </ul>
+                <i>（具体请参考帮助文档中的使用要求）</i>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="chat_window">
+    <div class="top_menu">
+        <div class="title">对话语料收集
+            <span id="school_number"> </span>
+        </div>
+    </div>
+    <ul class="messages">
+    </ul>
+    <div class="bottom_wrapper clearfix">
+        <div class="message_input_wrapper">
+            <input class="message_input" placeholder=""/>
+        </div>
+        <div class="send_message">
+            <div class="text" id="sendbtn">发送</div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script type="application/javascript">
+    $(document).ready(function () {
+        let S4 = function () {
+            return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+        };
+        uid = S4() + S4();
+        let ws = new WebSocket("ws://" + window.location.host + '/ws/' + uid);
+
+        show_log_flag = false;
+        $("#show_log").click(function () {
+            if (show_log_flag) {
+                window.open("http://" + window.location.host + "/log/" + uid + ".txt")
+            } else {
+                window.alert("多聊几句！")
+            }
+        });
+
+        function add_msg_item(cl, msg) {
+            console.log(msg)
+            let role;
+            if (cl === 'right') {
+                role = ':U'
+            } else {
+                role = 'A:'
+            }
+            let template_html = '<li class="message ' + cl + ' appeared"><div class="avatar"><div class="text"><b>' + role + '</b></div></div><div class="text_wrapper"><div class="text">' + msg + '</div></div></li>';
+            $('.messages').append(template_html);
+            $('.messages').animate({scrollTop: $('.messages').prop("scrollHeight")}, 500);
+        }
+
+        function add_db_item(dbs) {
+            let example_doc = document.getElementById('example_document');
+            example_doc.innerHTML = dbs['document'].replace(/\n/g, '<br><br>');
+        }
+
+        function set_school_num(sch_num) {
+            let sch_num_span = document.getElementById('school_number');
+            sch_num_span.innerHTML = sch_num
+        }
+
+        function set_other_chool_num(sch_num) {
+            let sch_num_span = document.getElementById('school_number');
+            sch_num_span.innerHTML += '-' + sch_num
+        }
+
+        ws.onmessage = function (evt) {
+            let d = JSON.parse(evt.data);
+            if (d['type'] === 'MSG') {
+                add_msg_item('left', d['msg']);
+            } else if (d['type'] === 'SET_NUM') {
+                set_school_num(d['msg']);
+            } else if (d['type'] === 'SET_OTH_NUM') {
+                set_other_chool_num(d['msg'])
+            } else {
+                add_db_item(d['msg']);
+            }
+        };
+
+        function send_msg() {
+            msg = $('.message_input').val();
+            if (msg.length === 0) {
+                console.log("不能发送空数据！");
+                return;
+            }
+            add_msg_item('right', msg);
+            $(".message_input").val("");
+            ws.send(msg);
+        }
+
+        $('.send_message').click(send_msg);
+        $('.message_input').keypress(function (e) {
+            if (e.which == 13) {
+                send_msg()
+            }
+        })
+    });
+</script>
+</body>
+</html>
