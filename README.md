@@ -1,9 +1,17 @@
-# 文本对话语料收集
+# 对话语料收集
+基于tornado的网页版对话语料众包工具。
 
-## run.py
+## Requirements
+- Python>=3.6
+- tornado>=4.5.3
 
-`python run.py 43199 logs`
+## Usage
 
-1. 监听端口43199
-2. 日志输出到logs目录下
-3. 依赖 tornado==4.5.3
+`python run.py --port 9999 --data doc.json --log logs`
+
+1. 监听端口9999
+2. 使用doc.json作为文档知识库，为每一个对话提供知识
+3. 日志输出到logs目录下
+
+## More
+本项目基于tornado后端，可以修改`templates`文件夹下的html模板，适应不同的对话场景。
